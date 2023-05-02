@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Boponomy Tracker</title>
+	<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js" integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js" integrity="sha512-3j3VU6WC5rPQB4Ld1jnLV7Kd5xr+cq9avvhwqzbH/taCRNURoeEpoPBK9pDyeukwSxwRPJ8fDgvYXd6SkaZ2TA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+</head>
+<body>
+	<div class="header">
+		<h1>NakhRAAS Boponomy Tracker</h1>
+		<nav>
+			<ul class="navbar">
+				<li><a href="{{ url_for('load_bop_board')}}">BopBoard</a></li>
+				<li><a href="{{ url_for('load_live_bets') }}">Live Bets</a></li>
+				<li><a href="" class="active">Make A Bet</a></li>
+                <li><a href="{{ url_for('load_info') }}" class="info">Info</a></li>
+                <li><a href="{{ url_for('load_logout') }}" class="logout">Log Out</a></li>
+			</ul>
+		</nav>
+	</div>
+
+    <div class="content">
+        <div id="informational">
+            <h2>Make A Bet</h2>
+            <p>Here, you can make a bet with any other player in the game.</p>
+            <p>Make sure you specify how many bops are being wagered, and a brief description of the bet (if you want).</p>
+        </div>
+
+        <div>
+            <form id="bet_form" action="{{ url_for('load_make_a_bet') }}" method="POST">
+                <label for="bet_amount">Amount of bops to wager:</label>
+                <input type="number" name="bet-amount" id="bet_amount" min="1" required>
+                <br>
+                <br>
+                <label for="opponent">Select opponent:</label>
+                <select name="opponent" id="opponent" required>
+                    <option value="Alina">Alina</option>
+                    <option value="Bhavya">Bhavya</option>
+                    <option value="Bhavya">Cathy</option>
+                    <option value="Devu">Devu</option>
+                    <option value="Gautam">Gautam</option>
+                    <option value="Gauri">Gauri</option>
+                    <option value="Haley">Haley</option>
+                    <option value="Janvi">Janvi</option>
+                    <option value="Ketul">Ketul</option>
+                    <option value="Kevin">Kevin</option>
+                    <option value="Kinolee">Kinolee</option>
+                    <option value="Nikita">Nikita</option>
+                    <option value="Nish">Nish</option>
+                    <option value="Rajiv">Rajiv</option>
+                    <option value="Rasu">Rasu</option>
+                    <option value="Sanay">Sanay</option>
+                    <option value="Sanjana">Sanjana</option>
+                    <option value="Sanya">Sanya</option>
+                    <option value="Shreya">Shreya</option>
+                    <option value="Sidhi">Sidhi</option>
+                    <option value="Tanisha">Tanisha</option>
+                    <option value="Tara">Tara</option>
+                    <option value="Teju">Teju</option>
+                </select>
+                <br>
+                <br>
+                <label for="bet_description">Description of the bet:</label>
+                <textarea name="bet_description" id="bet_description" placeholder="Description..." required></textarea>
+                <br>
+                <br>
+                <input type="submit" name="submit_bet" value="Submit Bet">
+            </form>
+        </div>
+    </div>
+
+
+</body>
+</html>

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Boponomy Tracker</title>
+	<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js" integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js" integrity="sha512-3j3VU6WC5rPQB4Ld1jnLV7Kd5xr+cq9avvhwqzbH/taCRNURoeEpoPBK9pDyeukwSxwRPJ8fDgvYXd6SkaZ2TA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script>
+        $(document).ready(function() {
+            $('#user-selection button[type="submit"]').click(function(e) {
+                e.preventDefault();
+                var selectedUser = $('#user-selection select[name="name"]').val();
+                $.cookie('user', selectedUser, { expires : 7});
+                $(this).closest('form').submit();
+            })
+        })
+    </script>
+</head>
+<body>
+    <div>
+        <h2>Welcome to the NakhRAAS Boponomy!</h1>
+        <p>A quick introduction to what the "Boponomy" is:</p>
+        <ul>
+            <li>Essentially, people can make bets on anything, with a "bop" (or any number of "bops"), as collateral.</li>
+            <li>If you win the bet, the other person gets that number of "bops" added to their balance. 
+                People do not want to have "bops" on their balance. 
+                The goal is to get other people to owe more bops! </li>
+            <li>Bops also accrue interest. This means that over time, if someone has any bops in their balance, it'll continually grow. 
+                This means that if someone owes 2 bops, and the rate of interest is 50% daily, the next day, they will owe 3 bops.</li>
+            <li>The way for people to reduce bops from their balance is to take a hit. For every hit they take, 1 bop gets removed from their balance.</li>
+            <li>However, there may be a point where people have so many bops on their balance that they are unable to remove bops from their balance as fast as the interest is growing. 
+                This means that they have no other choice then to declare "Bopruptcy", which is the equivalent of bankruptcy.</li>
+        </ul>
+    </div>
+
+    <div id="user-selection">
+        <form action="{{ url_for('load_bop_board') }}" method="POST">
+            <label for="name">Select your name:</label>
+            <select id="name" name="name">
+              <option value="Alina">Alina</option>
+              <option value="Bhavya">Bhavya</option>
+              <option value="Bhavya">Cathy</option>
+              <option value="Devu">Devu</option>
+              <option value="Gautam">Gautam</option>
+              <option value="Gauri">Gauri</option>
+              <option value="Haley">Haley</option>
+              <option value="Janvi">Janvi</option>
+              <option value="Ketul">Ketul</option>
+              <option value="Kevin">Kevin</option>
+              <option value="Kinolee">Kinolee</option>
+              <option value="Nikita">Nikita</option>
+              <option value="Nish">Nish</option>
+              <option value="Rajiv">Rajiv</option>
+              <option value="Rasu">Rasu</option>
+              <option value="Sanay">Sanay</option>
+              <option value="Sanjana">Sanjana</option>
+              <option value="Sanya">Sanya</option>
+              <option value="Shreya">Shreya</option>
+              <option value="Sidhi">Sidhi</option>
+              <option value="Tanisha">Tanisha</option>
+              <option value="Tara">Tara</option>
+              <option value="Teju">Teju</option>
+            </select>
+            <button type="submit" name="login" value="login">Login</button>
+          </form>          
+    </div>
+</body>
+</html>
