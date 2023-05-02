@@ -29,6 +29,9 @@ user_balances = {'Alina': 0,
                  'Tara': 0, 
                  'Teju': 0}
 
+@socketio.on('send bet')
+def add_bet(json, methods=['GET', 'POST']):
+    print('received my event: ' + str(json)) 
 
 @app.route('/')
 def landing():
@@ -56,8 +59,6 @@ def load_live_bets():
 
 @app.route('/make-a-bet', methods=['GET', 'POST'])
 def load_make_a_bet():
-    if "submit_bet" in request.form:
-        return "Sent bet to server!"
     return render_template('make-a-bet.html')
 
 @app.route('/info')
@@ -69,4 +70,4 @@ def load_logout():
     return render_template('logout.html')
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    socketio.run(debug=True)
