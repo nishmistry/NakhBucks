@@ -33,10 +33,18 @@ def landing():
     
 @app.route('/bop-board', methods=['GET', 'POST'])
 def load_bop_board():
+    user = request.cookies.get('user')
     if "login" in request.form:
         return render_template('bop-board.html')
     if "bopruptcy" in request.form:
-        return "You have declared bopruptcy!"
+        user_balances[user] = 0
+        return render_template('bop-board.html')
+    if "add" in request.form:
+        user_balances[user] += 1
+        return render_template('bop-board.html')
+    if "remove" in request.form:
+        user_balances[user] -= 1
+        return render_template('bop-board.html')
     return render_template('bop-board.html')
 
 @app.route('/live-bets')
