@@ -1,6 +1,9 @@
 from flask import Flask, render_template, request, url_for, redirect
+from flask_socketio import SocketIO, emit
 
 app = Flask(__name__)
+app.config['SECRET_KEY'] = 'hatwati'
+socketio = SocketIO(app)
 
 user_balances = {'Alina': 0, 
                  'Bhavya': 0, 
