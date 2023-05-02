@@ -66,7 +66,7 @@
                 <textarea name="bet_description" class="bet_description" placeholder="Description..." required></textarea>
                 <br>
                 <br>
-                <input type="submit" name="submit_bet" value="Submit Bet">
+                <input type="submit" class="submit" value="Submit Bet">
             </form>
         </div>
     </div>
@@ -75,25 +75,25 @@
         var socket = io();
 
         socket.on( 'connect', function() {
-        socket.emit( 'my event', {
-            data: 'User Connected'
-        } )
-
-        var form = $( 'form' ).on( 'submit', function( e ) {
-            e.preventDefault()
-            let bet_amount = $('input.bet_amount').val()
-            let user_one = $.cookie("user");
-            let user_two = $('input.opponent').val();
-            let bet_description = $('textarea.bet_description').val();
-            socket.emit( 'send bet', {
-                user_one : user_one,
-                user_two : user_two,
-                bet_amount : bet_amount,
-                bet_description : bet_description
+            socket.emit( 'my event', {
+                data: 'User Connected'
             } )
-            $( 'textarea.bet_description' ).val( '' ).focus()
-            $( 'input.bet_amount' ).val( '' ).focus()
-        } )
+
+            var form = $( 'form' ).on( 'submit', function( e ) {
+                e.preventDefault()
+                let bet_amount = $('input.bet_amount').val()
+                let user_one = $.cookie("user");
+                let user_two = $('input.opponent').val();
+                let bet_description = $('textarea.bet_description').val();
+                socket.emit('send bet', {
+                    user_one : user_one,
+                    user_two : user_two,
+                    bet_amount : bet_amount,
+                    bet_description : bet_description
+                } )
+                $( 'textarea.bet_description' ).val( '' ).focus()
+                $( 'input.bet_amount' ).val( '' ).focus()
+            } )
         } )
     </script>
 </body>

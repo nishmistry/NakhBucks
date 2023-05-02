@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, url_for, redirect
 from flask_socketio import SocketIO, emit
+import json
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'hatwati'
@@ -29,9 +30,23 @@ user_balances = {'Alina': 0,
                  'Tara': 0, 
                  'Teju': 0}
 
+live_bets = []
+
 @socketio.on('send bet')
-def add_bet(json, methods=['GET', 'POST']):
-    print('received my event: ' + str(json)) 
+def add_bet(bet, methods=['GET', 'POST']):
+    data = json.loads(bet)
+    bet_amount = data['bet_amount']
+    user_one = data['user_one']
+    user_two = data['user_two']
+    bet_description = data['bet_description']
+
+    new_bet = (user_one, user_two, bet_amount, bet_description)
+    live_bets.append(new_bet)
+    return "bet added" + str(bet_amount) + str(user_one) + str(user_two) + str(bet_description)
+
+# @socketio.on('update live bets')
+# def update_live_bets(methods=['GET', 'POST']):
+#     emit('update live bets', json.dumps(live_bets))
 
 @app.route('/')
 def landing():
@@ -70,4 +85,8 @@ def load_logout():
     return render_template('logout.html')
 
 if __name__ == '__main__':
-    socketio.run(debug=True)
+    socketio.run(app, debug=True)
+
+# while True:
+#     socketio.emit('update live bets', json.dumps(live_bets))
+#     socketio.sleep(3)

@@ -34,5 +34,17 @@
 			</div>
 		</div>
     </div>
+
+	<script>
+		socket.on( 'update live bets', function( msg ) {
+        console.log( msg )
+        // if( typeof msg.user_name !== 'undefined' ) {
+        //   $( 'h3' ).remove()
+        //   $( 'div.message_holder' ).append( '<div class="post"><b style="color: #000">'+msg.user_name+'</b>: '+msg.message+'</div>' )
+        //   var myDiv = document.getElementById("holder");
+        //   myDiv.scrollTop = myDiv.scrollHeight;
+        // }
+      })
+	</script>
 </body>
 </html>
