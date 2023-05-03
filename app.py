@@ -4,7 +4,7 @@ import json
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'hatwati'
-socketio = SocketIO(app)
+socketio = SocketIO(app, logging=True, engineio_logger=True)
 
 user_balances = {'Alina': 0, 
                  'Bhavya': 0, 
@@ -31,6 +31,25 @@ user_balances = {'Alina': 0,
                  'Teju': 0}
 
 live_bets = []
+example_bet = ("Alina", "Cathy", 5, "for fun")
+live_bets.append(example_bet)
+
+def user_one_won(bet):
+    loser = bet[1]
+    bet_amount = bet[2]
+    user_balances[loser] += bet_amount
+    # make sure to clear the bet from live bets
+
+def user_two_won(bet):
+    loser = bet[0]
+    bet_amount = bet[2]
+    user_balances[loser] += bet_amount
+    # make sure to clear the bet from live bets
+
+
+@socketio.on('connected')
+def connected():
+    return "connected"
 
 @socketio.on('send bet')
 def add_bet(bet, methods=['GET', 'POST']):
@@ -42,7 +61,7 @@ def add_bet(bet, methods=['GET', 'POST']):
 
     new_bet = (user_one, user_two, bet_amount, bet_description)
     live_bets.append(new_bet)
-    return "bet added" + str(bet_amount) + str(user_one) + str(user_two) + str(bet_description)
+    print("bet added" + str(bet_amount) + str(user_one) + str(user_two) + str(bet_description))
 
 # @socketio.on('update live bets')
 # def update_live_bets(methods=['GET', 'POST']):
