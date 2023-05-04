@@ -3,23 +3,28 @@
 <head>
     <title>Boponomy Tracker</title>
 	<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.6.1/socket.io.js" integrity="sha512-xbQU0+iHqhVt7VIXi6vBJKPh3IQBF5B84sSHdjKiSccyX/1ZI7Vnkt2/8y8uruj63/DVmCxfUNohPNruthTEQA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js" integrity="sha512-3j3VU6WC5rPQB4Ld1jnLV7Kd5xr+cq9avvhwqzbH/taCRNURoeEpoPBK9pDyeukwSxwRPJ8fDgvYXd6SkaZ2TA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.6.1/socket.io.js" integrity="sha512-xbQU0+iHqhVt7VIXi6vBJKPh3IQBF5B84sSHdjKiSccyX/1ZI7Vnkt2/8y8uruj63/DVmCxfUNohPNruthTEQA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js" integrity="sha512-3j3VU6WC5rPQB4Ld1jnLV7Kd5xr+cq9avvhwqzbH/taCRNURoeEpoPBK9pDyeukwSxwRPJ8fDgvYXd6SkaZ2TA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script>
+        var socket = io();
+
         $(document).ready(function() {
             var user = $.cookie("user");
 
             $("#greeting").append("Hey, " + user + "!");
             $("#account").append(user +"'s Account:");
+
+            socket.emit('please load bop balances');
+        })
+
+        socket.on('load bop balances', function(balanceList) {
+            console.log(balanceList[0])
+            for (i = 0; i < Object.keys(balanceList).length; ++i) {
+                $('#balance_holder tr:last').after('<tr class='+i.toString()+'><td>'+Object.keys(balanceList)[i]+'</td><td>'+Object.values(balanceList)[i]+'</td></tr>')
+            }
         })
     </script>
-    <!-- <script type="text/javascript" charset="utf-8">
-        var socket = io();
-        socket.on('connect', function() {
-        socket.emit('my event', {data: 'I\'m connected!'});
-        });
-    </script> -->
 </head>
 <body>
 	<div class="header">
@@ -65,9 +70,12 @@
 
         <div class="bopboard">
             <h2>BopBoard:</h2>
-            <div class="balance-holder" id="balance_holder">
-
-            </div>
+            <table id="balance_holder">
+				<tr>
+					<th>Name</th>
+					<th>Balance</th>
+				</tr>
+			</table>
         </div>
     </div>
 </body>

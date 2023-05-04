@@ -30,24 +30,29 @@ user_balances = {'Alina': 0,
                  'Tara': 0, 
                  'Teju': 0}
 
-live_bets = []
-
-# def user_one_won(bet):
-#     loser = bet[1]
-#     bet_amount = bet[2]
-#     user_balances[loser] += bet_amount
-#     # make sure to clear the bet from live bets
-
-# def user_two_won(bet):
-#     loser = bet[0]
-#     bet_amount = bet[2]
-#     user_balances[loser] += bet_amount
-#     # make sure to clear the bet from live bets
+live_bets = {}
 
 @socketio.on('send bet')
-def add_bet(bet, methods=['GET', 'POST']):
-    live_bets.append(bet)
-    print("okay")
+def add_bet(json, methods=['GET', 'POST']):
+    global live_bets
+    length = len(live_bets)
+    live_bets[length] = json
+    temp_list = []
+    temp_list.append(length)
+    temp_list.append(json)
+    print("appended bet to live_bets")
+    socketio.emit('update bets', temp_list)
+    print("sent 'update bets' to client")
+
+@socketio.on('please load bets')
+def load_all_live_bets():
+    global live_bets
+    emit('load bets', live_bets, broadcast=False)
+
+@socketio.on('please load bop balances')
+def load_bop_balances():
+    global user_balances
+    emit('load bop balances', user_balances)
 
 @app.route('/')
 def landing():
@@ -55,17 +60,7 @@ def landing():
     
 @app.route('/bop-board', methods=['GET', 'POST'])
 def load_bop_board():
-    user = request.cookies.get('user')
     if "login" in request.form:
-        return render_template('bop-board.html')
-    if "bopruptcy" in request.form:
-        user_balances[user] = 0
-        return render_template('bop-board.html')
-    if "add" in request.form:
-        user_balances[user] += 1
-        return render_template('bop-board.html')
-    if "remove" in request.form:
-        user_balances[user] -= 1
         return render_template('bop-board.html')
     return render_template('bop-board.html')
 

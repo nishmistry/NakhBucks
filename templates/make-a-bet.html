@@ -38,7 +38,7 @@
                 <select name="opponent" class="opponent" required>
                     <option value="Alina">Alina</option>
                     <option value="Bhavya">Bhavya</option>
-                    <option value="Bhavya">Cathy</option>
+                    <option value="Cathy">Cathy</option>
                     <option value="Devu">Devu</option>
                     <option value="Gautam">Gautam</option>
                     <option value="Gauri">Gauri</option>
@@ -74,12 +74,7 @@
     <script type="text/javascript" charset="utf-8">
         var socket = io();
 
-        socket.on( 'connect', function() {
-            socket.emit( 'my event', {
-                data: 'User Connected'
-            } )
-
-            var form = $( 'form' ).on( 'submit', function( e ) {
+        var form = $( 'form' ).on( 'submit', function( e ) {
                 e.preventDefault()
                 let bet_amount = $('input.bet_amount').val()
                 let user_one = $.cookie("user");
@@ -94,7 +89,6 @@
                 $( 'textarea.bet_description' ).val( '' ).focus()
                 $( 'input.bet_amount' ).val( '' ).focus()
             } )
-        } )
     </script>
 </body>
 </html>

@@ -3,9 +3,9 @@
 <head>
 	<title>Boponomy Tracker</title>
 	<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.6.1/socket.io.js" integrity="sha512-xbQU0+iHqhVt7VIXi6vBJKPh3IQBF5B84sSHdjKiSccyX/1ZI7Vnkt2/8y8uruj63/DVmCxfUNohPNruthTEQA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js" integrity="sha512-3j3VU6WC5rPQB4Ld1jnLV7Kd5xr+cq9avvhwqzbH/taCRNURoeEpoPBK9pDyeukwSxwRPJ8fDgvYXd6SkaZ2TA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.6.1/socket.io.js" integrity="sha512-xbQU0+iHqhVt7VIXi6vBJKPh3IQBF5B84sSHdjKiSccyX/1ZI7Vnkt2/8y8uruj63/DVmCxfUNohPNruthTEQA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js" integrity="sha512-3j3VU6WC5rPQB4Ld1jnLV7Kd5xr+cq9avvhwqzbH/taCRNURoeEpoPBK9pDyeukwSxwRPJ8fDgvYXd6SkaZ2TA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 </head>
 <body>
 	<div class="header">
@@ -29,22 +29,48 @@
 
 		<div id="all-bets">
 			<h2>All Bets:</h2>
-			<div class="message_holder" id="all_bets_holder">
-				<h3>There are no live bets...</h3>
-			</div>
+
+			<table id="bet_holder">
+				<tr>
+					<th>ID</th>
+					<th>Instigator</th>
+					<th>Opponent</th>
+					<th>Amount</th>
+					<th>Description</th>
+					<th>Actions</th>
+				</tr>
+			</table>
 		</div>
     </div>
 
 	<script>
-		socket.on( 'update live bets', function( msg ) {
-        console.log( msg )
-        // if( typeof msg.user_name !== 'undefined' ) {
-        //   $( 'h3' ).remove()
-        //   $( 'div.message_holder' ).append( '<div class="post"><b style="color: #000">'+msg.user_name+'</b>: '+msg.message+'</div>' )
-        //   var myDiv = document.getElementById("holder");
-        //   myDiv.scrollTop = myDiv.scrollHeight;
-        // }
-      })
+		$(document).ready(function() {
+			socket.emit('please load bets');
+        })
+
+		var socket = io();
+
+		socket.on('update bets', function(temp_list) {
+			$('#bet_holder tr:last').after('<tr class='+temp_list[0]+'><td>'+temp_list[0]+'</td><td>'+temp_list[1].user_one+'</td><td>'+temp_list[1].user_two+'</td><td>'+temp_list[1].bet_amount+'</td><td>'+temp_list[1].bet_description+'</td><td><button type="submit" class="user_one_won" id="user_one_won" value='+temp_list[0]+'>'+temp_list[1].user_one+' won</button><button type="submit" class="user_two_won" id="user_two_won" value='+temp_list[0]+'>'+temp_list[1].user_two+' won</button></td></tr>')
+	  	})
+
+		socket.on('load bets', function(betlist) {
+			for (i = 0; i < Object.keys(betlist).length; ++i) {
+				$('#bet_holder tr:last').after('<tr class='+i.toString()+'><td>'+i.toString()+'</td><td>'+betlist[i].user_one+'</td><td>'+betlist[i].user_two+'</td><td>'+betlist[i].bet_amount+'</td><td>'+betlist[i].bet_description+'</td><td><button type="submit" class="user_one_won" id="user_one_won" value='+i.toString()+'>'+betlist[i].user_one+' won</button><button type="submit" class="user_two_won" id="user_two_won" value='+i.toString()+'>'+betlist[i].user_two+' won</button></td></tr>')
+			}
+      	})
+
+		// not working for some reason?? buttons aren't linking
+		
+		// var user_one_won = $('#user_one_won').on('submit', function(e) {
+		// 	e.preventDefault()
+		// 	console.log("1 worked")
+		// })
+
+		// var user_one_won = $('#user_two_won').on('submit', function(e) {
+		// 	e.preventDefault()
+		// 	console.log("2 worked")
+		// })
 	</script>
 </body>
 </html>
