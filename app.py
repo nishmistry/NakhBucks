@@ -62,6 +62,8 @@ def add_bet(json, methods=['GET', 'POST']):
 @socketio.on('please load bets')
 def load_all_live_bets():
     global live_bets
+    print("---------------")
+    print(live_bets)
     emit('load bets', live_bets, broadcast=False)
 
 @socketio.on('please load bop balances')
