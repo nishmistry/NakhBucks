@@ -39,11 +39,11 @@ bopruptcy_board = {}
 def apply_interest():
     global user_balances
     for i in user_balances:
-        user_balances[i] = user_balances[i] * 2
+        user_balances[i] = user_balances[i] * 1.10
     socketio.emit('force bop board reload')
 
 scheduler = BackgroundScheduler()
-scheduler.add_job(apply_interest, 'interval', seconds=20)
+scheduler.add_job(apply_interest, 'interval', hours=1)
 scheduler.start()
 
 @socketio.on('send bet')
@@ -93,7 +93,7 @@ def declare_bopruptcy(user):
     global bopruptcy_board
     this_balance = user_balances[user]
     owed_balance = this_balance / (len(user_balances) - 1)
-    bopruptcy_board[user] = math.floor(owed_balance)
+    bopruptcy_board[user] = math.ceil(owed_balance)
     user_balances[user] = 0
     socketio.emit('force bop board reload')
 
