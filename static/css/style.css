@@ -53,78 +53,85 @@ button {
     font-weight: bold;
   }
 
-  button:hover {
-    background-color: #b40000;
-  }
+button:hover {
+background-color: #b40000;
+}
 
-  table {
+table {
     border-collapse: collapse;
     width: 100%;
-  }
+}
   
-  th, td {
+th, td {
     text-align: center;
     padding: 8px;
-  }
+    border: 1px solid #ddd;
+}
   
-  tr:nth-child(even){background-color: #b4b4b4}
+tr:nth-child(even){
+    background-color: #c4c4c4;
+}
   
-  th {
+th {
     background-color: #d10000;
     color: white;
-  }
+}
 
-  form {
-    margin-top: 20px;
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0px 0px 10px #888;
-    display: flex;
-    flex-direction: column;
-  }
+tr:hover td {
+    background-color: #e6e6e6;
+}
   
-  form label {
-    display: block;
-    font-size: 16px;
-    font-weight: bold;
-    margin-bottom: 5px;
-  }
-  
-  form input[type="number"], form select, form textarea {
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 10px;
-    border-radius: 5px;
-    border: none;
-    background-color: #f1f1f1;
-    border: 1px solid #ccc;
-    font-size: 16px;
-    font-family: sans-serif;
-  }
-  
-  form input[type="submit"] {
-    background-color: #d10000;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    padding: 10px 20px;
-    cursor: pointer;
-    font-size: 16px;
-    font-weight: bold;
-  }
-  
-  form input[type="submit"]:hover {
-    background-color: #b40000;
-  }
-  
-  form select {
-    height: 40px;
-  }
-  
-  form textarea {
-    height: 150px;
-  }
+form {
+margin-top: 20px;
+background-color: #fff;
+padding: 20px;
+border-radius: 10px;
+box-shadow: 0px 0px 10px #888;
+display: flex;
+flex-direction: column;
+}
+
+form label {
+display: block;
+font-size: 16px;
+font-weight: bold;
+margin-bottom: 5px;
+}
+
+form input[type="number"], form select, form textarea {
+width: 100%;
+padding: 10px;
+margin-bottom: 10px;
+border-radius: 5px;
+border: none;
+background-color: #f1f1f1;
+border: 1px solid #ccc;
+font-size: 16px;
+font-family: sans-serif;
+}
+
+form input[type="submit"] {
+background-color: #d10000;
+color: #fff;
+border: none;
+border-radius: 5px;
+padding: 10px 20px;
+cursor: pointer;
+font-size: 16px;
+font-weight: bold;
+}
+
+form input[type="submit"]:hover {
+background-color: #b40000;
+}
+
+form select {
+height: 40px;
+}
+
+form textarea {
+height: 150px;
+}
   
 form input,
 form select,
@@ -136,3 +143,95 @@ form textarea {
   box-sizing: border-box;
   margin-bottom: 10px;
 }
+
+#informational {
+    text-align: center;
+    background-color: #f5f5f5;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 20px;
+    margin: 20px 0;
+    /* margin-bottom: 20px; */
+  }
+  
+  #informational h2 {
+    font-size: 36px;
+    color: #d10000;
+    margin-bottom: 10px;
+  }
+  
+  #informational p {
+    font-size: 18px;
+    line-height: 1.5;
+    margin-bottom: 10px;
+  }
+  
+  #informational #greeting {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+
+  .faq {
+    background-color: #f5f5f5;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin: 20px 0;
+    padding: 20px;
+  }
+  
+  .faq h2 {
+    font-size: 36px;
+    color: #d10000;
+    margin-bottom: 10px;
+    text-align: center;
+  }
+  
+  .faq ul {
+    margin: 0;
+    padding: 0;
+  }
+  
+  .faq li {
+    margin-bottom: 10px;
+    list-style-type: disc;
+    list-style-position: inside;
+    font-size: 18px;
+  }
+  
+  #bet_holder {
+    border-collapse: collapse;
+    width: 100%;
+  }
+  
+  #bet_holder th,
+  #bet_holder td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: center;
+  }
+  
+  #bet_holder th {
+    background-color: #d10000;
+    color: white;
+  }
+  
+  #bet_holder td:last-child {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+  }
+  
+  #bet_holder button {
+    background-color: #d10000;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 5px 10px;
+    cursor: pointer;
+  }
+  
+  #bet_holder button:hover {
+    background-color: #b30000;
+  }
+  

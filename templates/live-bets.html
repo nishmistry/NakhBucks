@@ -55,10 +55,6 @@
 	  	})
 
 		socket.on('load bets', function(betlist) {
-			// for (i = 0; i < Object.keys(betlist).length; ++i) {
-			// 	$('#bet_holder tr:last').after('<tr id=row'+i.toString()+'><td>'+i.toString()+'</td><td>'+betlist[i].user_one+'</td><td>'+betlist[i].user_two+'</td><td>'+betlist[i].bet_amount+'</td><td>'+betlist[i].bet_description+'</td><td><button type="submit" class="user_one_won" id="user_one_won" value='+i.toString()+'>'+betlist[i].user_one+' won</button><button type="submit" class="user_two_won" id="user_two_won" value='+i.toString()+'>'+betlist[i].user_two+' won</button></td></tr>')
-			// }
-
 			Object.keys(betlist).forEach(function(key) {
 				$('#bet_holder tr:last').after('<tr id=row'+key+'><td>'+key+'</td><td>'+betlist[key].user_one+'</td><td>'+betlist[key].user_two+'</td><td>'+betlist[key].bet_amount+'</td><td>'+betlist[key].bet_description+'</td><td><button type="submit" class="user_one_won" id="user_one_won" value='+key+'>'+betlist[key].user_one+' won</button><button type="submit" class="user_two_won" id="user_two_won" value='+key+'>'+betlist[key].user_two+' won</button></td></tr>')
 			})
