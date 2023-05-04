@@ -159,4 +159,4 @@ def load_logout():
     return render_template('logout.html')
 
 if __name__ == '__main__':
-    socketio.run(app, debug=True)
+    app.run()
