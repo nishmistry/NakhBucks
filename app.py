@@ -31,18 +31,20 @@ user_balances = {'Alina': 0,
                  'Teju': 0}
 
 live_bets = {}
+currId = 0
 
 @socketio.on('send bet')
 def add_bet(json, methods=['GET', 'POST']):
     global live_bets
-    length = len(live_bets)
-    live_bets[length] = json
+    global currId
+    live_bets[currId] = json
     temp_list = []
-    temp_list.append(length)
+    temp_list.append(currId)
     temp_list.append(json)
     print("appended bet to live_bets")
     socketio.emit('update bets', temp_list)
     print("sent 'update bets' to client")
+    currId += 1
 
 @socketio.on('please load bets')
 def load_all_live_bets():
@@ -53,6 +55,50 @@ def load_all_live_bets():
 def load_bop_balances():
     global user_balances
     emit('load bop balances', user_balances)
+
+@socketio.on('send my balance')
+def send_user_balance(user):
+    global user_balances
+    target_balance = user_balances[user]
+    emit('receive my balance', target_balance)
+
+@socketio.on('just bopped')
+def remove_bop(user):
+    global user_balances
+    target_balance = user_balances[user]
+    new_balance = int(target_balance) - 1
+    if (new_balance < 0):
+        new_balance = 0
+    else:
+        user_balances[user] = new_balance
+
+@socketio.on('user one won')
+def user_one_won(betId, methods=['GET', 'POST']):
+    global live_bets
+    global user_balances
+    target_bet = live_bets[int(betId)]
+    loser = target_bet['user_two']
+    wager = target_bet['bet_amount']
+    currentBal = user_balances[loser]
+    newBal = int(currentBal) + int(wager)
+    user_balances[loser] = newBal
+    del live_bets[int(betId)]
+    socketio.emit('force bop board reload')
+    socketio.emit('force live bets reload')
+
+@socketio.on('user two won')
+def user_two_won(betId, methods=['GET', 'POST']):
+    global live_bets
+    global user_balances
+    target_bet = live_bets[int(betId)]
+    loser = target_bet['user_one']
+    wager = target_bet['bet_amount']
+    currentBal = user_balances[loser]
+    newBal = int(currentBal) + int(wager)
+    user_balances[loser] = newBal
+    del live_bets[int(betId)]
+    socketio.emit('force bop board reload')
+    socketio.emit('force live bets reload')
 
 @app.route('/')
 def landing():

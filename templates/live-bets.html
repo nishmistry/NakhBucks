@@ -51,26 +51,33 @@
 		var socket = io();
 
 		socket.on('update bets', function(temp_list) {
-			$('#bet_holder tr:last').after('<tr class='+temp_list[0]+'><td>'+temp_list[0]+'</td><td>'+temp_list[1].user_one+'</td><td>'+temp_list[1].user_two+'</td><td>'+temp_list[1].bet_amount+'</td><td>'+temp_list[1].bet_description+'</td><td><button type="submit" class="user_one_won" id="user_one_won" value='+temp_list[0]+'>'+temp_list[1].user_one+' won</button><button type="submit" class="user_two_won" id="user_two_won" value='+temp_list[0]+'>'+temp_list[1].user_two+' won</button></td></tr>')
+			$('#bet_holder tr:last').after('<tr id=row'+temp_list[0]+'><td>'+temp_list[0]+'</td><td>'+temp_list[1].user_one+'</td><td>'+temp_list[1].user_two+'</td><td>'+temp_list[1].bet_amount+'</td><td>'+temp_list[1].bet_description+'</td><td><button type="submit" class="user_one_won" id="user_one_won" value='+temp_list[0]+'>'+temp_list[1].user_one+' won</button><button type="submit" class="user_two_won" id="user_two_won" value='+temp_list[0]+'>'+temp_list[1].user_two+' won</button></td></tr>')
 	  	})
 
 		socket.on('load bets', function(betlist) {
 			for (i = 0; i < Object.keys(betlist).length; ++i) {
-				$('#bet_holder tr:last').after('<tr class='+i.toString()+'><td>'+i.toString()+'</td><td>'+betlist[i].user_one+'</td><td>'+betlist[i].user_two+'</td><td>'+betlist[i].bet_amount+'</td><td>'+betlist[i].bet_description+'</td><td><button type="submit" class="user_one_won" id="user_one_won" value='+i.toString()+'>'+betlist[i].user_one+' won</button><button type="submit" class="user_two_won" id="user_two_won" value='+i.toString()+'>'+betlist[i].user_two+' won</button></td></tr>')
+				$('#bet_holder tr:last').after('<tr id=row'+i.toString()+'><td>'+i.toString()+'</td><td>'+betlist[i].user_one+'</td><td>'+betlist[i].user_two+'</td><td>'+betlist[i].bet_amount+'</td><td>'+betlist[i].bet_description+'</td><td><button type="submit" class="user_one_won" id="user_one_won" value='+i.toString()+'>'+betlist[i].user_one+' won</button><button type="submit" class="user_two_won" id="user_two_won" value='+i.toString()+'>'+betlist[i].user_two+' won</button></td></tr>')
 			}
       	})
 
-		// not working for some reason?? buttons aren't linking
-		
-		// var user_one_won = $('#user_one_won').on('submit', function(e) {
-		// 	e.preventDefault()
-		// 	console.log("1 worked")
-		// })
+		$('#bet_holder').on('click', 'button', function() {
+			var buttonId = $(this).attr('id');
+			var betId = $(this).attr('value');
 
-		// var user_one_won = $('#user_two_won').on('submit', function(e) {
-		// 	e.preventDefault()
-		// 	console.log("2 worked")
-		// })
+
+			if (buttonId === 'user_one_won') {
+				socket.emit('user one won', betId)
+				$('table#bet_holder tr#row'+betId).remove()
+
+			} else if (buttonId === 'user_two_won') {
+				socket.emit('user two won', betId)
+				$('table#bet_holder tr#row'+betId).remove()
+			}
+		})
+
+		socket.on('force live bets reload', function() {
+            location.reload(true);
+        })
 	</script>
 </body>
 </html>

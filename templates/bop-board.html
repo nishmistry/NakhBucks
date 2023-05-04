@@ -8,14 +8,24 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js" integrity="sha512-3j3VU6WC5rPQB4Ld1jnLV7Kd5xr+cq9avvhwqzbH/taCRNURoeEpoPBK9pDyeukwSxwRPJ8fDgvYXd6SkaZ2TA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script>
         var socket = io();
+        var user = $.cookie("user");
 
         $(document).ready(function() {
-            var user = $.cookie("user");
-
             $("#greeting").append("Hey, " + user + "!");
             $("#account").append(user +"'s Account:");
 
             socket.emit('please load bop balances');
+            socket.emit('send my balance', user);
+
+            $('#my_actions').on('click', 'button', function() {
+                var buttonId = $(this).attr('id');
+                if (buttonId === 'remove') {
+                    socket.emit('just bopped', user)
+                    location.reload(true);
+                } else if (buttonId === 'bopruptcy') {
+                    socket.emit('declare bopruptcy', user)
+                }
+            })
         })
 
         socket.on('load bop balances', function(balanceList) {
@@ -23,6 +33,14 @@
             for (i = 0; i < Object.keys(balanceList).length; ++i) {
                 $('#balance_holder tr:last').after('<tr class='+i.toString()+'><td>'+Object.keys(balanceList)[i]+'</td><td>'+Object.values(balanceList)[i]+'</td></tr>')
             }
+        })
+
+        socket.on('receive my balance', function(balance) {
+            $('#my_balance h3').text("Balance: " + balance);
+        })
+
+        socket.on('force bop board reload', function() {
+            location.reload(true);
         })
     </script>
 </head>
@@ -52,12 +70,9 @@
                 <h2 id="account"> </h2>
                 <h3>Balance: 0</h3>
             </div>
-            <div id="my_declare_bopruptcy">
-                <form action="{{ url_for('load_bop_board') }}" method="POST">
-                    <button type="submit" name="bopruptcy" value="bopruptcy">Declare Bopruptcy</button>
-                    <button type="submit" name="add" value="add">Add a Bop</button>
-                    <button type="submit" name="remove" value="remove">Remove a Bop</button>
-                </form>
+            <div id="my_actions">
+                <button type="submit" id="bopruptcy" value="bopruptcy">Declare Bopruptcy 🤣💀</button>
+                <button type="submit" id="remove" value="remove">I just bopped ✊🏾</button>
             </div>
 
             <div id="my_bopruptcy_gains">
