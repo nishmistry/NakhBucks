@@ -16,6 +16,7 @@
 
             socket.emit('please load bop balances');
             socket.emit('send my balance', user);
+            socket.emit('send my bopruptcy gains', user);
 
             $('#my_actions').on('click', 'button', function() {
                 var buttonId = $(this).attr('id');
@@ -29,9 +30,8 @@
         })
 
         socket.on('load bop balances', function(balanceList) {
-            console.log(balanceList[0])
             for (i = 0; i < Object.keys(balanceList).length; ++i) {
-                $('#balance_holder tr:last').after('<tr class='+i.toString()+'><td>'+Object.keys(balanceList)[i]+'</td><td>'+Object.values(balanceList)[i]+'</td></tr>')
+                $('#balance_holder tr:last').after('<tr class=row'+i.toString()+'><td>'+Object.keys(balanceList)[i]+'</td><td>'+Object.values(balanceList)[i]+'</td></tr>')
             }
         })
 
@@ -41,6 +41,13 @@
 
         socket.on('force bop board reload', function() {
             location.reload(true);
+        })
+
+        socket.on('load my bopruptcy gains', function(bopDict) {
+            console.log(bopDict)
+			for (i = 0; i < Object.keys(bopDict).length; ++i) {
+                $('#bopruptcy_gains_holder tr:last').after('<tr class=row'+i.toString()+'><td>'+Object.keys(bopDict)[i]+'</td><td>'+Object.values(bopDict)[i]+'</td></tr>')
+            }
         })
     </script>
 </head>
@@ -77,9 +84,12 @@
 
             <div id="my_bopruptcy_gains">
                 <h2>Gains from Bopruptcy:</h2>
-                <div class="message_holder" id="bopruptcy_gains_holder">
-                    <h3 >No gains from bopruptcy yet...</h3>
-                </div>
+                <table id="bopruptcy_gains_holder">
+                    <tr>
+                        <th>Name</th>
+                        <th>Bops Owed</th>
+                    </tr>
+			    </table>
             </div>
         </div>
 

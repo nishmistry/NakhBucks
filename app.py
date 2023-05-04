@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, url_for, redirect
 from flask_socketio import SocketIO, emit
-import json
+import math
+from apscheduler.schedulers.background import BackgroundScheduler
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'hatwati'
@@ -32,6 +33,18 @@ user_balances = {'Alina': 0,
 
 live_bets = {}
 currId = 0
+
+bopruptcy_board = {}
+
+def apply_interest():
+    global user_balances
+    for i in user_balances:
+        user_balances[i] = user_balances[i] * 2
+    socketio.emit('force bop board reload')
+
+scheduler = BackgroundScheduler()
+scheduler.add_job(apply_interest, 'interval', seconds=20)
+scheduler.start()
 
 @socketio.on('send bet')
 def add_bet(json, methods=['GET', 'POST']):
@@ -71,6 +84,25 @@ def remove_bop(user):
         new_balance = 0
     else:
         user_balances[user] = new_balance
+
+@socketio.on('declare bopruptcy')
+def declare_bopruptcy(user):
+    global user_balances
+    global bopruptcy_board
+    this_balance = user_balances[user]
+    owed_balance = this_balance / (len(user_balances) - 1)
+    bopruptcy_board[user] = math.floor(owed_balance)
+    user_balances[user] = 0
+    socketio.emit('force bop board reload')
+
+@socketio.on('send my bopruptcy gains')
+def send_bopruptcy_gains(user):
+    global bopruptcy_board
+    my_gains = {}
+    for i in bopruptcy_board:
+        if (i != user):
+            my_gains[i] = bopruptcy_board[i]
+    emit('load my bopruptcy gains', my_gains)
 
 @socketio.on('user one won')
 def user_one_won(betId, methods=['GET', 'POST']):
