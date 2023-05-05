@@ -92,10 +92,13 @@ def declare_bopruptcy(user):
     global user_balances
     global bopruptcy_board
     this_balance = user_balances[user]
-    owed_balance = this_balance / (len(user_balances) - 1)
-    bopruptcy_board[user] = math.ceil(owed_balance)
-    user_balances[user] = 0
-    socketio.emit('force bop board reload')
+    if this_balance == 0:
+        print("Attempted to declare bopruptcy with 0 balance")
+    else:
+        owed_balance = this_balance / (len(user_balances) - 1)
+        bopruptcy_board[user] = math.ceil(owed_balance)
+        user_balances[user] = 0
+        socketio.emit('force bop board reload')
 
 @socketio.on('send my bopruptcy gains')
 def send_bopruptcy_gains(user):
