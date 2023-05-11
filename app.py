@@ -20,6 +20,7 @@ user_balances = {'Alina': 0,
                  'Kinolee': 0, 
                  'Nikita': 0, 
                  'Nish': 0, 
+                 'Priyanka': 0,
                  'Rajiv': 0, 
                  'Rasu': 0, 
                  'Sanay': 0, 
@@ -31,8 +32,32 @@ user_balances = {'Alina': 0,
                  'Tara': 0, 
                  'Teju': 0}
 
-live_bets = {}
-currId = 0
+live_bets = {
+    1: {'user_one': 'Bhavya', 'user_two': 'Bhavya', 'bet_amount': '5', 'bet_description': 'Not allowed to talk about dance'},
+    2: {'user_one': 'Cathy', 'user_two': 'Cathy', 'bet_amount': '5', 'bet_description': 'Not allowed to talk super loudly in a normal conversation'},
+    3: {'user_one': 'Devu', 'user_two': 'Devu', 'bet_amount': '5', 'bet_description': 'Not allowed to talk about berf'},
+    4: {'user_one': 'Gautam', 'user_two': 'Gautam', 'bet_amount': '5', 'bet_description': 'Not allowed to look grumpy'},
+    5: {'user_one': 'Gauri', 'user_two': 'Gauri', 'bet_amount': '5', 'bet_description': 'Not allowed to talk about poop'},
+    6: {'user_one': 'Haley', 'user_two': 'Haley', 'bet_amount': '5', 'bet_description': 'Not allowed to scrunch her face'},
+    7: {'user_one': 'Janvi', 'user_two': 'Janvi', 'bet_amount': '5', 'bet_description': 'Not allowed to say sus'},
+    8: {'user_one': 'Ketul', 'user_two': 'Ketul', 'bet_amount': '5', 'bet_description': 'Not allowed to smile'},
+    9: {'user_one': 'Kevin', 'user_two': 'Kevin', 'bet_amount': '5', 'bet_description': 'Not allowed to talk about Stephen Curry'},
+    10: {'user_one': 'Nikita', 'user_two': 'Nikita', 'bet_amount': '5', 'bet_description': 'Not allowed to say newb womb'},
+    11: {'user_one': 'Nish', 'user_two': 'Nish', 'bet_amount': '5', 'bet_description': 'Not allowed to say hungy/angy'},
+    12: {'user_one': 'Priyanka', 'user_two': 'Priyanka', 'bet_amount': '5', 'bet_description': 'Not allowed to say quite'},
+    13: {'user_one': 'Rajiv', 'user_two': 'Rajiv', 'bet_amount': '5', 'bet_description': 'Not allowed to say damn'},
+    14: {'user_one': 'Rasu', 'user_two': 'Rasu', 'bet_amount': '5', 'bet_description': 'Not allowed to say shawty'},
+    15: {'user_one': 'Sanay', 'user_two': 'Sanay', 'bet_amount': '5', 'bet_description': 'Not allowed to cover your mouth with your fist and look surprised'},
+    16: {'user_one': 'Sanjana', 'user_two': 'Sanjana', 'bet_amount': '5', 'bet_description': 'Not allowed to say widewally'},
+    17: {'user_one': 'Sanya', 'user_two': 'Sanya', 'bet_amount': '5', 'bet_description': 'Not allowed to look angy wangy'},
+    18: {'user_one': 'Shreya', 'user_two': 'Shreya', 'bet_amount': '5', 'bet_description': 'Not allowed to say sorry'},
+    19: {'user_one': 'Sidhi', 'user_two': 'Sidhi', 'bet_amount': '5', 'bet_description': 'Not allowed to facetime Saarthi'},
+    20: {'user_one': 'Tanisha', 'user_two': 'Tanisha', 'bet_amount': '5', 'bet_description': 'Not allowed to wear weed socks'},
+    21: {'user_one': 'Tara', 'user_two': 'Tara', 'bet_amount': '5', 'bet_description': 'Not allowed to fake cry'},
+    22: {'user_one': 'Teju', 'user_two': 'Teju', 'bet_amount': '5', 'bet_description': 'Not allowed to shout/be loud'}
+}
+
+currId = 23
 
 bopruptcy_board = {}
 
@@ -43,7 +68,7 @@ def apply_interest():
     socketio.emit('force bop board reload')
 
 scheduler = BackgroundScheduler()
-scheduler.add_job(apply_interest, 'interval', hours=3)
+scheduler.add_job(apply_interest, 'interval', hours=5)
 scheduler.start()
 
 @socketio.on('send bet')
@@ -58,6 +83,7 @@ def add_bet(json, methods=['GET', 'POST']):
     socketio.emit('update bets', temp_list)
     print("sent 'update bets' to client")
     currId += 1
+    print(json)
 
 @socketio.on('please load bets')
 def load_all_live_bets():

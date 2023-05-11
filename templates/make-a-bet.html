@@ -26,12 +26,13 @@
             <h2>Make A Bet</h2>
             <p>Here, you can make a bet with any other player in the game.</p>
             <p>Make sure you specify how many bops are being wagered, and a brief description of the bet (if you want).</p>
+            <p>Both parties should agree on the amount! Remember, we want to make it realistic.</p>
         </div>
 
         <div>
             <form id="bet_form" action="" method="POST">
-                <label for="bet_amount">Amount of bops to wager (maximum of 20):</label>
-                <input type="number" name="bet_amount" class="bet_amount" min="1" max="20" required>
+                <label for="bet_amount">Amount of bops to wager (maximum of 10 bops):</label>
+                <input type="number" name="bet_amount" class="bet_amount" min="1" max="10" required>
                 <label for="opponent">Select opponent:</label>
                 <select name="opponent" class="opponent" required>
                     <option value="Alina">Alina</option>
@@ -47,6 +48,7 @@
                     <option value="Kinolee">Kinolee</option>
                     <option value="Nikita">Nikita</option>
                     <option value="Nish">Nish</option>
+                    <option value="Priyanka">Priyanka</option>
                     <option value="Rajiv">Rajiv</option>
                     <option value="Rasu">Rasu</option>
                     <option value="Sanay">Sanay</option>
