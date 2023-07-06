@@ -22,11 +22,11 @@ bopruptcy_board = {}
 def apply_interest():
     global user_balances
     for i in user_balances:
-        user_balances[i] = round(user_balances[i] * 1.25)
+        user_balances[i] = round(user_balances[i] * 1.05)
     socketio.emit('force bop board reload')
 
 scheduler = BackgroundScheduler()
-scheduler.add_job(apply_interest, 'interval', hours=24)
+scheduler.add_job(apply_interest, 'interval', minutes=1)
 scheduler.start()
 
 @socketio.on('send bet')
