@@ -35,30 +35,11 @@
                 <input type="number" name="bet_amount" class="bet_amount" min="1" max="10" required>
                 <label for="opponent">Select opponent:</label>
                 <select name="opponent" class="opponent" required>
-                    <option value="Alina">Alina</option>
-                    <option value="Bhavya">Bhavya</option>
-                    <option value="Cathy">Cathy</option>
-                    <option value="Devu">Devu</option>
-                    <option value="Gautam">Gautam</option>
-                    <option value="Gauri">Gauri</option>
-                    <option value="Haley">Haley</option>
-                    <option value="Janvi">Janvi</option>
-                    <option value="Ketul">Ketul</option>
-                    <option value="Kevin">Kevin</option>
-                    <option value="Kinolee">Kinolee</option>
-                    <option value="Nikita">Nikita</option>
-                    <option value="Nish">Nish</option>
-                    <option value="Priyanka">Priyanka</option>
-                    <option value="Rajiv">Rajiv</option>
-                    <option value="Rasu">Rasu</option>
-                    <option value="Sanay">Sanay</option>
-                    <option value="Sanjana">Sanjana</option>
-                    <option value="Sanya">Sanya</option>
-                    <option value="Shreya">Shreya</option>
-                    <option value="Sidhi">Sidhi</option>
-                    <option value="Tanisha">Tanisha</option>
-                    <option value="Tara">Tara</option>
-                    <option value="Teju">Teju</option>
+                    <option value="User1">User1</option>
+                    <option value="User2">User2</option>
+                    <option value="User3">User3</option>
+                    <option value="User4">User4</option>
+                    <option value="User5">User5</option>
                 </select>
                 <label for="bet_description">Description of the bet:</label>
                 <textarea name="bet_description" class="bet_description" placeholder="Description..." required></textarea>
@@ -72,7 +53,7 @@
 
         var form = $( 'form' ).on( 'submit', function( e ) {
                 e.preventDefault()
-                let bet_amount = $('input.bet_amount').val()
+                let bet_amount = $('input.bet_  amount').val()
                 let user_one = $.cookie("user");
                 let user_two = $('select.opponent').val();
                 let bet_description = $('textarea.bet_description').val();

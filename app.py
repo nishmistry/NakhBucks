@@ -4,37 +4,18 @@ import math
 from apscheduler.schedulers.background import BackgroundScheduler
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = 'hatwati'
+app.config['SECRET_KEY'] = '6PMTBEmyV2kQ35h4RA9IGYNwVwASRAIX'
 socketio = SocketIO(app, logging=True, engineio_logger=True)
 
-user_balances = {'Alina': 0, 
-                 'Bhavya': 0, 
-                 'Cathy': 0, 
-                 'Devu': 0, 
-                 'Gautam': 0, 
-                 'Gauri': 0, 
-                 'Haley': 0, 
-                 'Janvi': 0, 
-                 'Ketul': 0, 
-                 'Kevin': 0, 
-                 'Kinolee': 0, 
-                 'Nikita': 0, 
-                 'Nish': 0, 
-                 'Priyanka': 0,
-                 'Rajiv': 0, 
-                 'Rasu': 0, 
-                 'Sanay': 0, 
-                 'Sanjana': 0, 
-                 'Sanya': 0, 
-                 'Shreya': 0, 
-                 'Sidhi': 0, 
-                 'Tanisha': 0, 
-                 'Tara': 0, 
-                 'Teju': 0}
+user_balances = {'User1': 0, 
+                 'User2': 0, 
+                 'User3': 0,
+                 'User4': 0, 
+                 'User5': 0}
 
 live_bets = {}
 
-currId = 23
+currId = 0
 
 bopruptcy_board = {}
 
@@ -45,7 +26,7 @@ def apply_interest():
     socketio.emit('force bop board reload')
 
 scheduler = BackgroundScheduler()
-scheduler.add_job(apply_interest, 'interval', hours=5)
+scheduler.add_job(apply_interest, 'interval', hours=24)
 scheduler.start()
 
 @socketio.on('send bet')
